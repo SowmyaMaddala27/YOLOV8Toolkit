@@ -78,7 +78,7 @@ class detectionUtils:
             classes = [c for c in self.classes if c in self.priority_classes]
             
         obj = freqTable(freq_dict=Counter(classes), image_arr=img_arr, 
-                        video=False, all_frames_classes=None,
+                        video_frame=False, all_frames_classes=None,
                         text_color=self.freq_text_color, 
                         box_color=self.freq_text_color)
         
