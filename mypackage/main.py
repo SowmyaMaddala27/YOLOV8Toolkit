@@ -76,24 +76,45 @@ def check_supported_extensions(image_paths):
             return False
     return True
 
+
+def get_final_results(task, subtask, model_path, source,
+                          custom_class_colors, priority_classes,
+                          plot, white_background):
+    # Example Usage
+    # task = 'classify'
+    # subtask = 'crop'
+    # model_path = "path/to/model.pt"
+    # source = ["path/to/image1.jpg", "path/to/image2.jpg", 
+    #           "path/to/image3.jpg"]
+    # custom_class_colors = {'person': (255, 0, 0), 'motorcycle': (0, 0, 255),
+    #                        'dog': (0, 255, 0)}
+    # priority_classes = ['person', 'dog', 'motorcycle']
+    # plot = False
+    # white_background = False
+    
+    
+    # Check if the source has supported image extensions
+    if not check_supported_extensions(source):
+        raise Exception("Please provide images with supported extensions.")
+    
+    processed_results = process_images(task, subtask, model_path, source,
+                              custom_class_colors, priority_classes,
+                              plot, white_background)  
+    return processed_results
+    
+    
 if __name__ == "__main__":
     # Example Usage
     task = 'classify'
     subtask = 'crop'
     model_path = "path/to/model.pt"
     source = ["path/to/image1.jpg", "path/to/image2.jpg", "path/to/image3.jpg"]
-    
-    # Check if the source has supported image extensions
-    if not check_supported_extensions(source):
-        print("Please provide images with supported extensions.")
-        exit(1)
-    
     custom_class_colors = {'person': (255, 0, 0), 'motorcycle': (0, 0, 255),
                            'dog': (0, 255, 0)}
     priority_classes = ['person', 'dog', 'motorcycle']
     plot = False
     white_background = False
 
-    processed_results = process_images(task, subtask, model_path, source,
+    final_results = get_final_results(task, subtask, model_path, source,
                               custom_class_colors, priority_classes,
                               plot, white_background)
