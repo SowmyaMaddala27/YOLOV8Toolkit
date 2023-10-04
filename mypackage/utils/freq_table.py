@@ -22,8 +22,12 @@ class freqTable:
 
     def get_col_info(self):
         class_names = self.freq_dict.keys()
-        if self.video: class_names = self.all_frames_classes
-        self.col1_width = (max([len(cls) for cls in class_names]))*20
+        if self.video_frame: class_names = self.all_frames_classes
+        max_width = len('Class')
+        max_cls_len = max([len(cls) for cls in class_names])
+        if len('Class')<=max_cls_len:
+            max_width=max_cls_len
+        self.col1_width = (max_width)*20
         self.col2_width = 20*(len('Count')+1)
         self.col1_height = len(self.freq_dict)+1
 
