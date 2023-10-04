@@ -10,7 +10,9 @@ import os
 
 
 def process_images(task, subtask, model_path, source, custom_class_colors=None,
-                   priority_classes=None, plot=False, white_background=False):
+                   priority_classes=None, plot=False, white_background=False,
+                   freq_table=False, freq_text_color=(0,0,0), 
+                   freq_table_color=(0,0,0)):
     """
     Process images based on the specified task and subtask using YOLOv8.
 
@@ -49,7 +51,8 @@ def process_images(task, subtask, model_path, source, custom_class_colors=None,
             for each image in source.
     """
     yolo_model = YOLOv8(task, subtask, model_path, source, custom_class_colors,
-                       priority_classes, plot, white_background)
+                       priority_classes, plot, white_background, freq_table, 
+                       freq_text_color, freq_table_color)
     results = yolo_model.get_result()
     return results
 
@@ -79,7 +82,8 @@ def check_supported_extensions(image_paths):
 
 def get_final_results(task, subtask, model_path, source,
                           custom_class_colors, priority_classes,
-                          plot, white_background):
+                          plot, white_background, freq_table, 
+                          freq_text_color, freq_table_color):
     # Example Usage
     # task = 'classify'
     # subtask = 'crop'
@@ -91,6 +95,9 @@ def get_final_results(task, subtask, model_path, source,
     # priority_classes = ['person', 'dog', 'motorcycle']
     # plot = False
     # white_background = False
+    # freq_table = False
+    # freq_text_color = (0,0,255)
+    # freq_table_color = (255,0,0)
     
     
     # Check if the source has supported image extensions
@@ -99,7 +106,8 @@ def get_final_results(task, subtask, model_path, source,
     
     processed_results = process_images(task, subtask, model_path, source,
                               custom_class_colors, priority_classes,
-                              plot, white_background)  
+                              plot, white_background, freq_table, 
+                              freq_text_color, freq_table_color)  
     return processed_results
     
     
@@ -114,7 +122,11 @@ if __name__ == "__main__":
     priority_classes = ['person', 'dog', 'motorcycle']
     plot = False
     white_background = False
+    freq_table = False
+    freq_text_color = (0,0,255)
+    freq_table_color = (255,0,0)
 
     final_results = get_final_results(task, subtask, model_path, source,
                               custom_class_colors, priority_classes,
-                              plot, white_background)
+                              plot, white_background, freq_table, 
+                              freq_text_color, freq_table_color)

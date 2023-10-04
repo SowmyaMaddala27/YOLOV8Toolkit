@@ -13,7 +13,8 @@ from ultralytics import YOLO
 class YOLOv8:
     def __init__(self, task, subtask, model_path, source, 
                  custom_class_colors=None, priority_classes=None, 
-                 plot=False, white_background=False):
+                 plot=False, white_background=False, freq_table=False, 
+                 freq_text_color=(0,0,0), freq_table_color=(0,0,0)):
         self.task = task
         self.subtask = subtask
         self.model = YOLO(model_path)
@@ -22,6 +23,9 @@ class YOLOv8:
         self.custom_class_colors = custom_class_colors
         self.plot = plot
         self.white_background = white_background
+        self.freq_table = freq_table
+        self.freq_table_color = freq_table_color
+        self.freq_text_color = freq_text_color
 
     def get_result(self):
         if self.task == 'detect':
@@ -29,7 +33,9 @@ class YOLOv8:
                                       source=self.source,
                                       priority_classes=self.priority_classes,
                                       custom_class_colors=self.custom_class_colors,
-                                      plot=self.plot)
+                                      plot=self.plot, freq_table=self.freq_table, 
+                                      freq_table_color=self.freq_table_color,
+                                      freq_text_color=self.freq_text_color)
             result = temp_obj.process_result()
 
         elif self.task == 'segment':
@@ -38,7 +44,10 @@ class YOLOv8:
                                       priority_classes=self.priority_classes,
                                       custom_class_colors=self.custom_class_colors,
                                       plot=self.plot,
-                                      white_background=self.white_background)
+                                      white_background=self.white_background,
+                                      freq_table=self.freq_table, 
+                                      freq_table_color=self.freq_table_color,
+                                      freq_text_color=self.freq_text_color)
             result = temp_obj.process_result()
 
         elif self.task == 'classify':

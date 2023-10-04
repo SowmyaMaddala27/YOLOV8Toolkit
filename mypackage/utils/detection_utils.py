@@ -5,13 +5,16 @@ Created on Mon Oct  2 19:03:44 2023
 @author: sowmya
 """
 
+from utils.freq_table import freqTable
 from utils.color_utils import colorUtils
+from collections import Counter
 import matplotlib.pyplot as plt
 import cv2
 
 class detectionUtils:
-    def __init__(self, pred, priority_classes=None,
-                 custom_class_colors=None, plot=False):
+    def __init__(self, pred, priority_classes=None, freq_table=False,
+                 custom_class_colors=None, plot=False, freq_table_color=(0,0,0),
+                 freq_text_color=(0,0,0)):
         self.pred = pred
         self.xyxy_box_coords = pred.boxes.xyxy.numpy().astype(int)
         self.confs = pred.boxes.conf.numpy()
@@ -21,6 +24,9 @@ class detectionUtils:
         self.orig_rgb_img = pred.orig_img[:, :, ::-1].copy()
         self.custom_class_colors = custom_class_colors
         self.priority_classes = priority_classes
+        self.freq_table = freq_table
+        self.freq_table_color = freq_table_color
+        self.freq_text_color = freq_text_color
         self.plot = plot
 
     @staticmethod
@@ -65,10 +71,27 @@ class detectionUtils:
             cropped_images[class_label].append(rgb_crop)
         return cropped_images
 
+
+    def display_freq_table(self, img_arr):
+        classes = self.classes
+        if self.priority_classes:
+            classes = [c for c in self.classes if c in self.priority_classes]
+            
+        obj = freqTable(freq_dict=Counter(classes), image_arr=img_arr, 
+                        video=False, all_frames_classes=None,
+                        text_color=self.freq_text_color, 
+                        box_color=self.freq_text_color)
+        
+        f_img = obj.plot_table();
+        return f_img
+    
+
     def obj_detect(self):
         rgb_img = self.orig_rgb_img
+        
         # Dictionary to store colors for each class
         class_colors = self.custom_class_colors if self.custom_class_colors else {}
+        
         for index in range(len(self.xyxy_box_coords)):
             class_label = self.classes[index]
             if self.priority_classes and class_label not in self.priority_classes:
@@ -85,6 +108,9 @@ class detectionUtils:
             color = class_colors[class_label]
             box = self.xyxy_box_coords[index]
             rgb_img = self.draw_annotated_boxes(rgb_img, box, color, text)
-
+            
+        if self.freq_table: rgb_img = self.display_freq_table(rgb_img)
+        
         if self.plot: plt.imshow(rgb_img);
+        
         return rgb_img
