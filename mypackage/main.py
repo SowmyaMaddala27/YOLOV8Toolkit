@@ -113,8 +113,8 @@ def get_final_results(task, subtask, model_path, source,
     
 if __name__ == "__main__":
     # Example Usage
-    task = 'classify'
-    subtask = 'crop'
+    task = 'segment'
+    subtask = 'segment'
     model_path = "path/to/model.pt"
     source = ["path/to/image1.jpg", "path/to/image2.jpg", "path/to/image3.jpg"]
     custom_class_colors = {'person': (255, 0, 0), 'motorcycle': (0, 0, 255),
