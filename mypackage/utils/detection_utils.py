@@ -16,7 +16,7 @@ class detectionUtils:
         self.xyxy_box_coords = pred.boxes.xyxy.numpy().astype(int)
         self.confs = pred.boxes.conf.numpy()
         keys_list = pred.boxes.cls.numpy().astype(int).tolist()
-        self.cls = [pred.names[key] for key in keys_list]
+        self.classes = [pred.names[key] for key in keys_list]
         self.img_shape = pred.orig_shape
         self.orig_rgb_img = pred.orig_img[:, :, ::-1].copy()
         self.custom_class_colors = custom_class_colors
@@ -54,7 +54,7 @@ class detectionUtils:
     def crop_img(self):
         cropped_images = {}
         for index in range(len(self.xyxy_box_coords)):
-            class_label = self.cls[index]
+            class_label = self.classes[index]
             if self.priority_classes and class_label not in self.priority_classes:
                 continue
             if class_label not in cropped_images: cropped_images[class_label]=[]
@@ -70,7 +70,7 @@ class detectionUtils:
         # Dictionary to store colors for each class
         class_colors = self.custom_class_colors if self.custom_class_colors else {}
         for index in range(len(self.xyxy_box_coords)):
-            class_label = self.cls[index]
+            class_label = self.classes[index]
             if self.priority_classes and class_label not in self.priority_classes:
                 continue
             conf = self.confs[index]
