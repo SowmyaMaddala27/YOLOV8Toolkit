@@ -22,6 +22,9 @@ class process_images:
         priority_classes (list, optional): List of priority classes.
         plot (bool, optional): Whether to plot the results.
         white_background (bool, optional): Preference for segmented images.
+        freq_table(bool, optional): Whether to plot the frequency table on the image
+        freq_text_color(tuple, optional): text color for frequency table
+        freq_table_color(tuple, optional): table color for frequency table
     
     Returns:
         list: Processed results based on the task and subtask.
