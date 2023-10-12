@@ -35,9 +35,9 @@ class detectionUtils:
                       color, 5)
         # Define the font and scale of the text
         font = cv2.FONT_HERSHEY_SIMPLEX
-        font_scale = 1
+        font_scale = 4
         font_color = (255, 255, 255)  # White color
-        font_thickness = 2
+        font_thickness = 3
         text_position = (box[0], box[1] - 10)
 
         # Get the size of the text to calculate the background rectangle
@@ -46,8 +46,9 @@ class detectionUtils:
 
         # Calculate the position for the background rectangle
         background_rect_start = (box[0], box[1] - text_height - 10)
-        background_rect_end = (box[0] + text_width, box[1] - baseline + 10)
-
+        # background_rect_end = (box[0] + text_width, box[1] - baseline + 10)
+        background_rect_end = (box[0] + text_width, box[1])
+        
         # Draw the background rectangle
         cv2.rectangle(rgb_img, background_rect_start,
                       background_rect_end, color, -1)
