@@ -157,7 +157,7 @@ class videoProcessor:
                                      source=[frame], 
                                      custom_class_colors=custom_class_colors,
                                      priority_classes=self.priority_classes)
-                annotated_frame = yolo_model.get_result()
+                annotated_frame = yolo_model.results
                 
                 if self.freq_table: 
                     annotated_frame = self.plot_freq_table(class_frqs[i], 
