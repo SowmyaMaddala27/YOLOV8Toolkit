@@ -27,6 +27,11 @@ class imageSegmentation:
     def process_result(self):
         result = []
         for pred in self.predictions:
+            classes = pred.boxes.cls
+            if len(classes)==0: 
+                result.append(pred.orig_img)
+                continue
+            
             obj = segmentationUtils(pred, self.priority_classes, self.freq_table,
                                 self.custom_class_colors, self.plot,
                                 self.white_background, self.freq_table_color, 

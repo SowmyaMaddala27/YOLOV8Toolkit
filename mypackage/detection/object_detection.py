@@ -26,6 +26,11 @@ class objectDetection:
     def process_result(self):
         result = []
         for pred in self.predictions:
+            classes = pred.boxes.cls
+            if len(classes)==0: 
+                result.append(pred.orig_img)
+                continue
+            
             obj = detectionUtils(pred, self.priority_classes, self.freq_table,
                                 self.custom_class_colors, self.plot,
                                 self.freq_table_color, self.freq_text_color)
