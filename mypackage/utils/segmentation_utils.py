@@ -48,6 +48,22 @@ class segmentationUtils:
             black_mask = np.all(segment_image == [0, 0, 0], axis=-1)
             segment_image[black_mask] = [255, 255, 255]
         return segment_image
+    
+    def crop_img(self):
+        cropped_images = {}
+        for index in range(len(self.masks)):
+            class_label = self.classes[index]
+            if self.priority_classes and class_label not in self.priority_classes:
+                continue
+            if class_label not in cropped_images: cropped_images[class_label]=[]
+
+            mask = self.masks[index]
+            mask_points = mask.astype(int)
+            x, y, w, h = cv2.boundingRect(mask_points)
+            rgb_crop = self.orig_rgb_img[y:y+h, x:x+w]
+            if self.plot: plt.imshow(rgb_crop);
+            cropped_images[class_label].append(rgb_crop)
+        return cropped_images
 
     def crop_segmented_img(self):
         cropped_images = {}
