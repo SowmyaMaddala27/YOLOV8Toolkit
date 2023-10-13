@@ -39,6 +39,9 @@ class imageSegmentation:
             if self.subtask=='crop':
                 cropped_images = obj.crop_segmented_img()
                 result.append(cropped_images)
+            elif self.subtask=='segcrop':
+                cropped_images = obj.crop_img()
+                result.append(cropped_images)
             elif self.subtask=='segment':
                 final_img = obj.obj_segment()
                 result.append(final_img)
