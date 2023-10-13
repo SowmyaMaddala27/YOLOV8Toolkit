@@ -18,7 +18,7 @@ class YOLOv8:
     
     Args:
         task (str): Task to perform ('detect', 'segment', 'classify').
-        subtask (str): Subtask ('crop', 'detect', 'segment').
+        subtask (str): Subtask ('crop', 'detect', 'segment', 'segcrop').
         model_path (str): Path to the YOLOv8 model file.
         source (list): List of image paths.
         custom_class_colors (dict, optional): Dictionary of class-color pairs.
@@ -47,7 +47,11 @@ class YOLOv8:
     
         - Task 'segment' and Subtask 'crop':
             Returns a list of dictionaries with class:cropped_segmented_images 
-            for each image in the source.
+            for each image in the source with normal bbox.
+            
+        - Task 'segment' and Subtask 'segcrop':
+            Returns a list of dictionaries with class:cropped_segmented_images 
+            for each image in the source with segmentation based bbox.
     
         - Task 'classify':
             Returns a list of 2 lists: [classes, confidences] 
@@ -75,8 +79,6 @@ class YOLOv8:
             self.check_supported_extensions(source)
             
         self.results = self.get_result()
-        if self.plot: 
-            plt.imshow(self.results[-1]);
             
         
     def check_supported_extensions(self, image_paths):
