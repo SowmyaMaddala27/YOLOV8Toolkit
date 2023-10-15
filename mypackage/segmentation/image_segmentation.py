@@ -26,19 +26,23 @@ class imageSegmentation:
 
     def process_result(self):
         result = []
+        # i=1
         for pred in self.predictions:
             classes = pred.boxes.cls
             if len(classes)==0: 
                 result.append(pred.orig_img)
                 continue
-            
             obj = segmentationUtils(pred, self.priority_classes, self.freq_table,
                                 self.custom_class_colors, self.plot,
                                 self.white_background, self.freq_table_color, 
                                 self.freq_text_color)
+            
             if self.subtask=='crop':
                 cropped_images = obj.crop_segmented_img()
                 result.append(cropped_images)
+                # print(f"\n{i}:{classes}\n")
+                # i=i+1
+
             elif self.subtask=='segcrop':
                 cropped_images = obj.crop_img()
                 result.append(cropped_images)

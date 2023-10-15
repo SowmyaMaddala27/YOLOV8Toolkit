@@ -42,8 +42,14 @@ class segmentationUtils:
         masked_img = cv2.bitwise_and(self.orig_rgb_img, self.orig_rgb_img,
                                      mask=binary_mask)
         x, y, w, h = cv2.boundingRect(mask_points)
-        segment_image = np.zeros((h, w, 3), dtype=np.uint8)
-        segment_image[0:h, 0:w] = masked_img[y:y+h, x:x+w]
+        # print(f"\n{x},{y},{w},{h}\n")
+        # segment_image = np.zeros((h, w, 3), dtype=np.uint8)
+        segment_image = np.zeros((height, width, 3), dtype=np.uint8)
+        # print(f"{segment_image.shape}, {masked_img.shape}\n\
+        #       {segment_image[0:h, 0:w].shape}, {masked_img[y:y+h, x:x+w].shape}\n")
+        # segment_image[0:h, 0:w] = masked_img[y:y+h, x:x+w]
+        segment_image[y:y+h, x:x+w] = masked_img[y:y+h, x:x+w]
+        segment_image = segment_image[y:y+h, x:x+w]
         if self.white_background:
             black_mask = np.all(segment_image == [0, 0, 0], axis=-1)
             segment_image[black_mask] = [255, 255, 255]
