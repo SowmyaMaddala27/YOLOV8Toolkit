@@ -29,7 +29,7 @@ class copy_data:
         self.freq_table = freq_table
         self.freq_table_color = freq_table_color
         self.freq_text_color = freq_text_color
-        self.save_pipeline2()
+        # self.save_pipeline2()
         
     def get_filepaths(self):
         file_paths = []
@@ -49,7 +49,7 @@ class copy_data:
         if os.path.isdir(self.source_path):
             filenames = os.listdir(self.source_path)
         else:
-            filenames = [os.path.dirname(self.source_path)]
+            filenames = [os.path.basename(self.source_path)]
         return filenames
     
     
@@ -80,6 +80,7 @@ class copy_data:
             img_path = os.path.join(self.des_path, filename)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             cv2.imwrite(img_path, img)
+        
         
     def copy_cropped_results(self):
         for d, filename in tqdm(zip(self.results, self.filenames),
@@ -137,8 +138,16 @@ class copy_data:
             
     
     
-    
-
+def main2(source_path, des_path, model_path):
+    for file in os.listdir(source_path):
+        filepath = os.path.join(source_path, file)
+        obj = copy_data(source_path=filepath, 
+                        des_dir=des_path, 
+                        task='segment', subtask='crop', 
+                        model_path=model_path)
+        obj.save_pipeline()
+        
+        
 def main(source_path, des_path, model_path, species=None):
     if species is None: species=os.listdir(source_path)
     for folder in species:
@@ -154,6 +163,7 @@ def main(source_path, des_path, model_path, species=None):
                             des_dir=des_type_folderpath, 
                             task='segment', subtask='crop', 
                             model_path=model_path)
+            obj.save_pipeline2()
             
             
 if __name__=='main':
