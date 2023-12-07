@@ -49,7 +49,7 @@ class segmentationUtils:
         #       {segment_image[0:h, 0:w].shape}, {masked_img[y:y+h, x:x+w].shape}\n")
         # segment_image[0:h, 0:w] = masked_img[y:y+h, x:x+w]
         segment_image[y:y+h, x:x+w] = masked_img[y:y+h, x:x+w]
-        segment_image = segment_image[y:y+h, x:x+w]
+        segment_image = segment_image[y:y+h, x:x+w] 
         if self.white_background:
             black_mask = np.all(segment_image == [0, 0, 0], axis=-1)
             segment_image[black_mask] = [255, 255, 255]

@@ -9,8 +9,10 @@ from detection.object_detection import objectDetection
 from segmentation.image_segmentation import imageSegmentation
 from classification.image_classification import imageClassification
 from ultralytics import YOLO
+import numpy as np
 import matplotlib.pyplot as plt
 import os
+import cv2
 
 class YOLOv8:
     """
@@ -133,11 +135,56 @@ class YOLOv8:
         return result
     
    
+    
+class img_resizer:
+    '''
+    A class for resizing images while maintaining the aspect ratio.
+
+    Attributes:
+    - image (numpy.ndarray): Input image to be resized.
+    - target_size (tuple): Target size (height, width) for resizing the image.
+    - bg (str): Background color for padding. Choose from 'black' or 'white'.
+    Returns:
+    - resized_image (numpy.ndarray): Resized and padded image.
+    
+    Example Usage:
+    >>> resizer = img_resizer(image, target_size=(1280, 1280), bg='white')
+    >>> resized_image = resizer.resized_image
+    '''
+    
+    def __init__(self, image, target_size, bg):
+        self.bg = bg
+        self.resized_image = np.asarray(self.resize_image(image, target_size))
+        
+    def resize_image(self, image, size):
+        h, w = image.shape[:2]
+        aspect_ratio = w / h
+        if aspect_ratio > 1:
+            new_w = size[0]
+            new_h = int(new_w / aspect_ratio)
+        else:
+            new_h = size[1]
+            new_w = int(new_h * aspect_ratio)
+        resized_image = cv2.resize(image, (new_w, new_h))
+        padded_image = self.pad_image(resized_image, size)
+        return padded_image
+    
+    def pad_image(self, image, size):
+        h, w = image.shape[0],image.shape[1]
+        pad_h = (size[1] - h) // 2
+        pad_w = (size[0] - w) // 2
+        if self.bg=='black': color = (0, 0, 0)
+        elif self.bg=='white': color=(255, 255, 255)
+        padded_image = cv2.copyMakeBorder(image, pad_h, pad_h, pad_w, pad_w, 
+                                          cv2.BORDER_CONSTANT, value=color)
+        return padded_image
+
+    
 if __name__ == "__main__":
     # Example Usage
     task = 'segment'
     subtask = 'segment'
-    model_path = "path/to/model.pt"
+    model_path=r"D:\New folder\Dataset versions\YOLO\Fish prawn segmentation\runs\segment\train4\weights\best.pt" 
     source = ["path/to/image1.jpg", "path/to/image2.jpg", "path/to/image3.jpg"]
     custom_class_colors = {'person': (255, 0, 0), 'motorcycle': (0, 0, 255),
                            'dog': (0, 255, 0)}

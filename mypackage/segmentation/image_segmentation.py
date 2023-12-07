@@ -26,7 +26,6 @@ class imageSegmentation:
 
     def process_result(self):
         result = []
-        # i=1
         for pred in self.predictions:
             classes = pred.boxes.cls
             if len(classes)==0: 
@@ -40,8 +39,6 @@ class imageSegmentation:
             if self.subtask=='crop':
                 cropped_images = obj.crop_segmented_img()
                 result.append(cropped_images)
-                # print(f"\n{i}:{classes}\n")
-                # i=i+1
 
             elif self.subtask=='segcrop':
                 cropped_images = obj.crop_img()

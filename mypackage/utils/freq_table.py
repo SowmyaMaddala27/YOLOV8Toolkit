@@ -29,7 +29,7 @@ class freqTable:
             max_width=max_cls_len
         self.col1_width = (max_width)*20
         self.col2_width = 20*(len('Count')+1)
-        self.col1_height = len(self.freq_dict)+1
+        self.col1_height = len(class_names)+1
 
         return self.col1_width, self.col2_width, self.col1_height
 
