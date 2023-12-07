@@ -5,6 +5,8 @@ Created on Sat Oct 14 00:01:24 2023
 @author: sowmya
 """
 
+# Import necessary libraries
+
 from yolo_results import YOLOv8
 import cv2
 
@@ -138,12 +140,12 @@ class copy_data:
             
     
     
-def main2(source_path, des_path, model_path):
+def main2(source_path, des_path, model_path, task='segment', subtask='crop'):
     for file in os.listdir(source_path):
         filepath = os.path.join(source_path, file)
         obj = copy_data(source_path=filepath, 
                         des_dir=des_path, 
-                        task='segment', subtask='crop', 
+                        task=task, subtask=subtask, 
                         model_path=model_path)
         obj.save_pipeline()
         
@@ -170,7 +172,8 @@ if __name__=='main':
     source_path = r"D:\New folder\qzense Dataset\Final Data"
     des_path = r"D:\New folder\Segmented Final Data"
     model_path=r"D:\New folder\Dataset versions\YOLO\Fish prawn segmentation\runs\segment\train4\weights\best.pt" 
-    species = os.listdir(source_path)[23:]
+    # species = os.listdir(source_path)[23:]
+    species = ['Sardine']
     main(source_path, des_path, model_path, species)
     
     
