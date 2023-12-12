@@ -22,7 +22,7 @@ class imageSegmentation:
         self.freq_table = freq_table
         self.freq_table_color = freq_table_color
         self.freq_text_color = freq_text_color
-        self.predictions = self.model(self.source, conf=0.5, iou=0.7)
+        self.predictions = self.model(self.source, conf=0.75, iou=0.7)
 
     def process_result(self):
         result = []
