@@ -132,10 +132,13 @@ class copy_data:
                             cls_dir = os.path.join(self.des_path, cls)
                             os.makedirs(cls_dir, exist_ok=True)
                             for idx, cropped_img in enumerate(cropped_img_list):
-                                name = f"{img_name}_({idx}){ext}"
-                                img = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2RGB)
+                                # name = f"{img_name}_({idx}){ext}"  
+                                #png files use lossless compression
+                                name = f"{img_name}_({idx}).png"                               
+                                img = cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)
                                 img_path = os.path.join(cls_dir, name)
                                 cv2.imwrite(img_path, img) 
+
         print("\nDone.")
             
     
@@ -177,6 +180,20 @@ if __name__=='main':
     main(source_path, des_path, model_path, species)
     
     
+    # from yolo_results import img_resizer
+    # src_folder_path = r"D:\New folder\New app testing data-20231130T193006Z-001\New app testing data\input\2023-12-06\sardine\newly segmented\Sardine\Good\fish"
+    # des_folder_path = r"D:\New folder\New app testing data-20231130T193006Z-001\New app testing data\input\2023-12-06\sardine\newly segmented\Sardine\Good\fish\resized"
+    # target_size=(640, 640)
+    # bg='black'
+    # for file in tqdm(os.listdir(src_folder_path), desc='Loading '):
+    #     os.makedirs(des_folder_path, exist_ok=True)
+    #     filepath = os.path.join(src_folder_path, file)
+    #     image = cv2.imread(filepath)
+    #     if image is None: continue
+    #     resizer = img_resizer(image, target_size, bg)
+    #     resized_image = resizer.resized_image
+    #     new_filepath = os.path.join(des_folder_path, file)
+    #     cv2.imwrite(new_filepath, resized_image)
     
     
     
