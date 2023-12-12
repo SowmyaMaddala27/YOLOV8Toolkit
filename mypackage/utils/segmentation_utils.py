@@ -40,7 +40,7 @@ class segmentationUtils:
         binary_mask = np.zeros((height, width), dtype=np.uint8)
         cv2.fillPoly(binary_mask, [mask_points], 255)
         masked_img = cv2.bitwise_and(self.orig_rgb_img, self.orig_rgb_img,
-                                     mask=binary_mask)
+                                      mask=binary_mask)
         x, y, w, h = cv2.boundingRect(mask_points)
         # print(f"\n{x},{y},{w},{h}\n")
         # segment_image = np.zeros((h, w, 3), dtype=np.uint8)
@@ -54,6 +54,29 @@ class segmentationUtils:
             black_mask = np.all(segment_image == [0, 0, 0], axis=-1)
             segment_image[black_mask] = [255, 255, 255]
         return segment_image
+    
+    # def segment_img(self, mask_points):
+    #     height, width = self.img_shape[0], self.img_shape[1]
+    #     # mask_points = mask_points.astype(int)
+    #     mask_points = np.array(mask_points, dtype=np.int32)
+    #     mask_points = mask_points.reshape((-1, 2))
+    #     binary_mask = np.zeros((height, width), dtype=np.uint8)
+    #     cv2.fillPoly(binary_mask, [mask_points], 255)
+    #     masked_img = cv2.bitwise_and(self.orig_rgb_img, self.orig_rgb_img,
+    #                                   mask=binary_mask)
+    #     x, y, w, h = cv2.boundingRect(mask_points)
+    #     # print(f"\n{x},{y},{w},{h}\n")
+    #     # segment_image = np.zeros((h, w, 3), dtype=np.uint8)
+    #     segment_image = np.zeros((h, w, 3), dtype=np.uint8)
+    #     # print(f"{segment_image.shape}, {masked_img.shape}\n\
+    #     #       {segment_image[0:h, 0:w].shape}, {masked_img[y:y+h, x:x+w].shape}\n")
+    #     segment_image[0:h, 0:w] = masked_img[y:y+h, x:x+w]
+    #     # segment_image[y:y+h, x:x+w] = masked_img[y:y+h, x:x+w]
+    #     # segment_image = segment_image[y:y+h, x:x+w] 
+    #     if self.white_background:
+    #         black_mask = np.all(segment_image == [0, 0, 0], axis=-1)
+    #         segment_image[black_mask] = [255, 255, 255]
+    #     return segment_image
     
     def crop_img(self):
         cropped_images = {}
